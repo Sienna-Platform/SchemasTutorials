@@ -22,11 +22,12 @@ using DataFrames: DataFrame
 # Zones are RTS *Areas*, not `bus.csv`'s `Zone` column (21 values, which is what the operations
 # `LoadZone` models) and not `hierarchy_rts.csv`'s `ba` column (5 ReEDS balancing areas).
 #
-# An earlier draft also emitted a `TopologyMapping` supplemental attribute per zone, listing its
-# member bus names. That is dropped: once a zone *is* an `Area`, the membership is already
-# recorded by each `ACBus`'s own `area` field, and a `TopologyMapping` would only restate it in a
-# second place nothing keeps in sync. It would also have to attach to a component in the *other*
-# document, which `add_supplemental_attribute!` rejects outright.
+# No `TopologyMapping` either. Once a zone *is* an `Area`, the bus-to-zone membership is already
+# recorded by each `ACBus`'s own `area` field, so a `TopologyMapping` would restate it in a second
+# place nothing keeps in sync -- and it would have to attach to a component in the *other*
+# document, which `add_supplemental_attribute!` rejects outright. This matches the data model:
+# PowerSystemsInvestmentsPortfolios.jl is removing it for the same reason, that there is no need
+# for it when the base system topology is used directly.
 #
 # `add_investment_topology!`'s `source` parameter is accepted for signature symmetry with later
 # investment stages (E2+) that do read from `investments_source_dir()`, but this stage reads
