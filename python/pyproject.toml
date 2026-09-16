@@ -1,0 +1,32 @@
+[project]
+name = "rts-gmlc-case"
+version = "0.1.0"
+description = "Builds the RTS-GMLC power system as a portable OpenAPI case document."
+readme = "README.md"
+authors = [
+    { name = "Jose Daniel Lara", email = "jdlara@berkeley.edu" }
+]
+requires-python = ">=3.11.4"
+dependencies = [
+    "pandas>=3.0.5",
+    "power-openapi-models",
+    "pyarrow>=25.0.1",
+    "pydantic>=2.13.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+power-openapi-models = { path = "../../power-openapi-models/python", editable = true }
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: full RTS-GMLC case build, reads all 282 time-series profiles (some ~105k rows) end to end; deselect with -m 'not slow'",
+]

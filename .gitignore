@@ -1,0 +1,6 @@
+cases/
+data/
+.venv/
+.superpowers/
+.DS_Store
+*.bak
